@@ -1,50 +1,98 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- 
+Sync Impact Report:
+- Version Change: 1.0.0 -> 2.0.0
+- Modified Principles: Replaced initial rules with explicit Clean Architecture guidelines for the Patient Management System.
+- Added Sections: Arquitetura Obrigatória, Regras Fundamentais, Persistência, Modelagem, Padrão de Casos de Uso, Autenticação, Padrões de UI, Reutilização, Clean Code, Diretrizes IA, O Que Não É Permitido, Escalabilidade.
+- Removed Sections: Old generic Flutter principles.
+- Templates Requiring Updates: ✅ plan-template.md, ✅ spec-template.md, ✅ tasks-template.md
+- Follow-up TODOs: Implement initial scaffolding for Clean Architecture layers (Core, Data, Domain, Presentation).
+-->
+# 📜 Projeto de Gestão de Pacientes Constitution
 
-## Core Principles
+## 🦷 Sistema de Gestão de Pacientes (Flutter + Clean Architecture)
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### 1. OBJETIVO
+Este projeto tem como objetivo desenvolver uma aplicação mobile em Flutter para gerenciamento de pacientes, utilizando:
+- Clean Architecture
+- Clean Code
+- Reutilização de código
+- Estrutura escalável
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### 2. ARQUITETURA OBRIGATÓRIA
+O projeto DEVE seguir Clean Architecture, dividido em:
+- **Presentation**: Apenas UI (Widgets, Pages). Nenhuma regra de negócio.
+- **Domain**: Entidades, Casos de uso, Interfaces de repositório.
+- **Data**: Implementações de repositórios, Models.
+- **Core**: Utilitários, Constantes, Helpers.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### 3. REGRAS FUNDAMENTAIS (NON-NEGOTIABLE)
+- Nenhuma lógica de negócio na UI.
+- Nenhum acesso direto ao repositório na UI.
+- Toda ação deve passar por UseCases.
+- Código deve ser modular e reutilizável.
+- Evitar duplicação de código.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### 4. PERSISTÊNCIA (REGRA ATUAL)
+- Os dados DEVEM ser armazenados em memória.
+- NÃO utilizar banco de dados nesta fase.
+- Preparar código para futura substituição por banco.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### 5. MODELAGEM
+A entidade principal é **Paciente**:
+- `id`
+- `nome`
+- `procedimento`
+- `dataAtendimento`
+- `observacoes`
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### 6. PADRÃO DE CASOS DE USO
+Cada operação deve ter um UseCase separado:
+- `GetPacientes`
+- `AddPaciente`
+- `UpdatePaciente`
+- `DeletePaciente`
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### 7. AUTENTICAÇÃO
+- Login fixo (mock).
+- Sem backend.
+- Sem persistência.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### 8. PADRÕES DE UI
+- UI deve ser limpa e simples.
+- Utilizar widgets reutilizáveis.
+- Evitar código grande dentro das telas.
+- Separar widgets complexos.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### 9. REUTILIZAÇÃO
+Componentes reutilizáveis obrigatórios: Campos de input, Botões, Cards, Dialogs.
+
+### 10. CLEAN CODE
+- Métodos curtos.
+- Nomes descritivos.
+- Classes com responsabilidade única.
+- Evitar arquivos grandes.
+
+### 11. DIRETRIZES PARA GERAÇÃO COM IA
+A IA deve:
+- Gerar código por partes pequenas.
+- Nunca gerar arquivos grandes.
+- Respeitar a arquitetura definida.
+- Separar corretamente camadas.
+- Priorizar legibilidade.
+
+### 12. O QUE NÃO É PERMITIDO
+- Misturar camadas.
+- Criar lógica dentro de Widgets.
+- Acessar lista diretamente na UI.
+- Ignorar UseCases.
+- Código desorganizado.
+
+### 13. ESCALABILIDADE
+O sistema deve estar preparado para: Integração com banco de dados, API REST, Expansão de funcionalidades.
+
+### 14. PRINCÍPIO FINAL
+Todo código deve ser: ✔ Simples ✔ Legível ✔ Reutilizável ✔ Escalável
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
-
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+This Constitution supersedes all other practices or ad-hoc conventions. Amendments require documentation and a version bump.
+**Version**: 2.0.0 | **Ratified**: 2026-04-06 | **Last Amended**: 2026-04-06

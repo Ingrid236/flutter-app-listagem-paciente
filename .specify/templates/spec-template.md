@@ -95,6 +95,12 @@
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
+### Non-Functional / Constitution Requirements
+
+- **NFR-001**: O projeto DEVE seguir a Clean Architecture (Presentation, Domain, Data, Core).
+- **NFR-002**: NÃO PODE haver lógica de negócio ou acesso a repositório diretamente na UI. Utilize UseCases.
+- **NFR-003**: Os dados DEVEM ser armazenados em memória na fase atual (mock), preparado para banco no futuro.
+
 ### Key Entities *(include if feature involves data)*
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]

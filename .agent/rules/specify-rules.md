@@ -1,0 +1,29 @@
+﻿# flutter-app-listagem Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-04-06
+
+## Active Technologies
+
+- Dart 3.x (Flutter) + `flutter_bloc` (Gerenciamento de Estado), `equatable` (Comparações de Models/Entities), `intl` (Formatação de Datas). (001-pacientes-crud)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+# Add commands for Dart 3.x (Flutter)
+
+## Code Style
+
+Dart 3.x (Flutter): Follow standard conventions
+
+## Recent Changes
+
+- 001-pacientes-crud: Added Dart 3.x (Flutter) + `flutter_bloc` (Gerenciamento de Estado), `equatable` (Comparações de Models/Entities), `intl` (Formatação de Datas).
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->

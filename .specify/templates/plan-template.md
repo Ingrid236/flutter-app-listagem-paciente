@@ -31,7 +31,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] Camadas separadas corretamente (Presentation, Domain, Data, Core).
+- [ ] UI isolada e limpa (Nenhuma regra de negócio na UI, nenhum acesso direto ao repositório).
+- [ ] Operações executadas via UseCases (e.g., GetPacientes, AddPaciente).
+- [ ] Persistência inicial em memória (Sem BD real na Fase 1, mas preparado para mock).
+- [ ] Reutilização implementada (Campos, Botões, Dialogs componentes extraídos).
 
 ## Project Structure
 
