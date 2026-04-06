@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/auth/auth_cubit.dart';
-
-import 'package:listagem/presentation/pages/pacientes_list_page.dart';
-import '../widgets/app_input.dart';
+import 'pacientes_list_page.dart';
+import '../widgets/app_form_field.dart';
 import '../widgets/app_button.dart';
+import '../widgets/app_spacing.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,12 +16,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void _onLogin() {
-    context.read<AuthCubit>().login(
-      _usernameController.text,
-      _passwordController.text,
-    );
+    if (_formKey.currentState!.validate()) {
+      context.read<AuthCubit>().login(
+        _usernameController.text,
+        _passwordController.text,
+      );
+    }
   }
 
   @override
@@ -34,13 +37,15 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login Administrativo')),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
           } else if (state is AuthSuccess) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => const PacientesListPage()),
@@ -49,33 +54,66 @@ class _LoginPageState extends State<LoginPage> {
         },
         builder: (context, state) {
           return Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 500),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AppInput(
-                      controller: _usernameController,
-                      label: 'Usuário',
-                    ),
-                    AppInput(
-                      controller: _passwordController,
-                      label: 'Senha',
-                      obscureText: true,
-                    ),
-                    const SizedBox(height: 8),
-                    if (state is AuthLoading)
-                      const Center(child: CircularProgressIndicator())
-                    else
-                      AppButton(
-                        onPressed: _onLogin,
-                        text: 'Entrar',
-                        icon: Icons.lock,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Icon(
+                        Icons.medical_services_outlined,
+                        size: 80,
+                        color: Colors.blue,
                       ),
-                  ],
+                      AppSpacing.verticalMd,
+                      Text(
+                        'Bem-vindo de volta',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[900],
+                        ),
+                      ),
+                      Text(
+                        'Entre para gerenciar seus pacientes',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      AppSpacing.verticalXl,
+                      AppFormField(
+                        controller: _usernameController,
+                        label: 'Usuário',
+                        hintText: 'Digite seu usuário',
+                        validator: (value) => 
+                            (value == null || value.isEmpty) ? 'Campo obrigatório' : null,
+                      ),
+                      AppSpacing.verticalMd,
+                      AppFormField(
+                        controller: _passwordController,
+                        label: 'Senha',
+                        hintText: 'Digite sua senha',
+                        obscureText: true,
+                        validator: (value) => 
+                            (value == null || value.isEmpty) ? 'Campo obrigatório' : null,
+                      ),
+                      AppSpacing.verticalXl,
+                      if (state is AuthLoading)
+                        const Center(child: CircularProgressIndicator())
+                      else
+                        AppButton(
+                          onPressed: _onLogin,
+                          text: 'Entrar',
+                          icon: Icons.login,
+                          fullWidth: true,
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -17,7 +17,6 @@ void main() {
     await tester.pumpWidget(const PacientesApp());
 
     // Verify that our app starts on LoginPage
-    expect(find.text('Login Administrativo'), findsOneWidget);
-    expect(find.text('Entrar'), findsOneWidget);
+    expect(find.textContaining('Bem-vindo'), findsOneWidget);
   });
 }

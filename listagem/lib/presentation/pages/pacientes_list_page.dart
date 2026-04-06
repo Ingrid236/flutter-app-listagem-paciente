@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/paciente/paciente_cubit.dart';
+import '../bloc/auth/auth_cubit.dart';
 import 'paciente_form_page.dart';
+import 'login_page.dart';
 import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
 import '../widgets/shared_confirmation_dialog.dart';
@@ -20,11 +22,34 @@ class _PacientesListPageState extends State<PacientesListPage> {
     context.read<PacienteCubit>().fetchPacientes();
   }
 
+  void _onLogout() async {
+    final confirmed = await SharedConfirmationDialog.show(
+      context,
+      title: 'Sair do Sistema',
+      content: 'Tem certeza que deseja encerrar sua sessão?',
+    );
+
+    if (confirmed && mounted) {
+      context.read<AuthCubit>().logout();
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+        (route) => false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pacientes'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: _onLogout,
+            tooltip: 'Sair',
+          ),
+        ],
       ),
       floatingActionButton: AppButton(
         text: 'Novo Paciente',
@@ -79,7 +104,7 @@ class _PacientesListPageState extends State<PacientesListPage> {
                         paciente.nome,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18),
                       ),
-                      subtitle: Text(paciente.procedimento),
+                      subtitle: Text('${paciente.tipo ?? ""} - ${paciente.procedimento}'),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context).push(

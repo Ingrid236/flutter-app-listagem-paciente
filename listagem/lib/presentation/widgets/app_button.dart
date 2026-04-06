@@ -5,6 +5,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final IconData? icon;
   final bool isSecondary;
+  final bool fullWidth;
 
   const AppButton({
     super.key,
@@ -12,34 +13,48 @@ class AppButton extends StatelessWidget {
     this.onPressed,
     this.icon,
     this.isSecondary = false,
+    this.fullWidth = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    Widget button;
+
     if (icon != null) {
       if (isSecondary) {
-        return OutlinedButton.icon(
+        button = OutlinedButton.icon(
+          onPressed: onPressed,
+          icon: Icon(icon),
+          label: Text(text),
+        );
+      } else {
+        button = FilledButton.icon(
           onPressed: onPressed,
           icon: Icon(icon),
           label: Text(text),
         );
       }
-      return FilledButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon),
-        label: Text(text),
+    } else {
+      if (isSecondary) {
+        button = OutlinedButton(
+          onPressed: onPressed,
+          child: Text(text),
+        );
+      } else {
+        button = FilledButton(
+          onPressed: onPressed,
+          child: Text(text),
+        );
+      }
+    }
+
+    if (fullWidth) {
+      return SizedBox(
+        width: double.infinity,
+        child: button,
       );
     }
 
-    if (isSecondary) {
-      return OutlinedButton(
-        onPressed: onPressed,
-        child: Text(text),
-      );
-    }
-    return FilledButton(
-      onPressed: onPressed,
-      child: Text(text),
-    );
+    return button;
   }
 }

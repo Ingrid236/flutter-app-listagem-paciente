@@ -20,4 +20,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(const AuthError('Credenciais inválidas.'));
     }
   }
+
+  void logout() {
+    emit(AuthInitial());
+  }
 }
