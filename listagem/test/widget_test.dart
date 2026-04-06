@@ -12,7 +12,7 @@ import 'package:listagem/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    sl.init();
+    ServiceLocator.init();
     // Build our app and trigger a frame.
     await tester.pumpWidget(const PacientesApp());
 

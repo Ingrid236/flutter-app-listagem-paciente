@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/auth/auth_cubit.dart';
 
 import 'package:listagem/presentation/pages/pacientes_list_page.dart';
+import '../widgets/app_input.dart';
+import '../widgets/app_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,36 +48,36 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Usuário',
-                    border: OutlineInputBorder(),
-                  ),
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 500),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    AppInput(
+                      controller: _usernameController,
+                      label: 'Usuário',
+                    ),
+                    AppInput(
+                      controller: _passwordController,
+                      label: 'Senha',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 8),
+                    if (state is AuthLoading)
+                      const Center(child: CircularProgressIndicator())
+                    else
+                      AppButton(
+                        onPressed: _onLogin,
+                        text: 'Entrar',
+                        icon: Icons.lock,
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(),
-                  ),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 24),
-                if (state is AuthLoading)
-                  const CircularProgressIndicator()
-                else
-                  ElevatedButton(
-                    onPressed: _onLogin,
-                    child: const Text('Entrar'),
-                  ),
-              ],
+              ),
             ),
           );
         },

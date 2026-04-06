@@ -11,8 +11,10 @@ import 'package:listagem/domain/usecases/add_paciente.dart';
 import 'package:listagem/domain/usecases/update_paciente.dart';
 import 'package:listagem/domain/usecases/delete_paciente.dart';
 
+import 'package:listagem/core/theme/app_theme.dart';
+
 // Basic Service Locator / DI
-class sl {
+class ServiceLocator {
   static late final AuthCubit authCubit;
   static late final PacienteCubit pacienteCubit;
 
@@ -39,7 +41,7 @@ class sl {
 }
 
 void main() {
-  sl.init();
+  ServiceLocator.init();
   runApp(const PacientesApp());
 }
 
@@ -50,15 +52,13 @@ class PacientesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: sl.authCubit),
-        BlocProvider.value(value: sl.pacienteCubit),
+        BlocProvider.value(value: ServiceLocator.authCubit),
+        BlocProvider.value(value: ServiceLocator.pacienteCubit),
       ],
       child: MaterialApp(
         title: 'Pacientes CRUD',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-          useMaterial3: true,
-        ),
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
         home: const LoginPage(),
       ),
     );

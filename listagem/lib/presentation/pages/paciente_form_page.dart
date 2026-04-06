@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../../domain/entities/paciente.dart';
 import '../bloc/paciente/paciente_cubit.dart';
-import '../widgets/shared_text_field.dart';
+import '../widgets/app_input.dart';
+import '../widgets/app_button.dart';
 
 class PacienteFormPage extends StatefulWidget {
   final Paciente? paciente;
@@ -93,33 +94,36 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SharedTextField(
-                label: 'Nome',
+              AppInput(
+                label: 'Nome *',
                 controller: _nomeController,
-                isRequired: true,
+                validator: (value) => 
+                    (value == null || value.isEmpty) ? 'Campo obrigatório' : null,
               ),
-              SharedTextField(
-                label: 'Procedimento',
+              AppInput(
+                label: 'Procedimento *',
                 controller: _procedimentoController,
-                isRequired: true,
+                validator: (value) => 
+                    (value == null || value.isEmpty) ? 'Campo obrigatório' : null,
               ),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  _selectedDate == null
-                      ? 'Data de Atendimento (Opcional)'
-                      : 'Data: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
-                ),
-                trailing: const Icon(Icons.calendar_today),
+              AppInput(
+                label: _selectedDate == null
+                    ? 'Data de Atendimento (Opcional)'
+                    : 'Data: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
+                readOnly: true,
                 onTap: _pickDate,
               ),
-              const SizedBox(height: 16),
-              SharedTextField(
+              AppInput(
                 label: 'Observações (Opcional)',
                 controller: _observacoesController,
+                maxLines: 3,
               ),
               const SizedBox(height: 32),
-              ElevatedButton(onPressed: _save, child: const Text('Salvar')),
+              AppButton(
+                onPressed: _save,
+                text: 'Salvar',
+                icon: isEditing ? Icons.edit : Icons.add,
+              ),
             ],
           ),
         ),
