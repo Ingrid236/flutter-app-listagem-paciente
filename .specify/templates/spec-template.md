@@ -97,9 +97,20 @@
 
 ### Non-Functional / Constitution Requirements
 
-- **NFR-001**: O projeto DEVE seguir a Clean Architecture (Presentation, Domain, Data, Core).
-- **NFR-002**: NÃO PODE haver lógica de negócio ou acesso a repositório diretamente na UI. Utilize UseCases.
-- **NFR-003**: Os dados DEVEM ser armazenados em memória na fase atual (mock), preparado para banco no futuro.
+- **NFR-001**: O projeto DEVE seguir a Clean Architecture (Presentation, Domain, Data,
+  Core) — constituição §2.
+- **NFR-002**: NÃO PODE haver lógica de negócio ou acesso a repositório diretamente na
+  UI. Utilize UseCases — constituição §3.
+- **NFR-003**: Os dados DEVEM ser armazenados em memória na fase atual (mock), preparado
+  para banco no futuro — constituição §4.
+- **NFR-004**: TODA alteração de código DEVE ser realizada em branch dedicada no GitHub.
+  Nenhum commit PODE ir diretamente para `main` — constituição §15.
+- **NFR-005**: Cores DEVEM usar `AppColors.*`. Espaçamentos DEVEM usar `AppSpacing.*`.
+  Nenhum valor hardcoded de cor ou espaçamento é permitido — constituição §16.
+- **NFR-006**: Formulários DEVEM usar `GlobalKey<FormState>`, controllers gerenciados
+  pelo Cubit e validators centralizados via `FormValidators` — constituição §17.
+- **NFR-007**: Dead code (imports, métodos, widgets legados não utilizados) DEVE ser
+  removido na mesma PR que introduz os substitutos — constituição §18.
 
 ### Key Entities *(include if feature involves data)*
 

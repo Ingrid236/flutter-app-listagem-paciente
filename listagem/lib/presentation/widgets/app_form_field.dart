@@ -12,6 +12,8 @@ class AppFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final void Function(String)? onChanged;
   final int? maxLines;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   const AppFormField({
     super.key,
@@ -25,6 +27,8 @@ class AppFormField extends StatelessWidget {
     this.suffixIcon,
     this.onChanged,
     this.maxLines = 1,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -47,6 +51,8 @@ class AppFormField extends StatelessWidget {
           obscureText: obscureText,
           onChanged: onChanged,
           maxLines: maxLines,
+          readOnly: readOnly,
+          onTap: onTap,
           decoration: InputDecoration(
             hintText: hintText,
             suffixIcon: suffixIcon,

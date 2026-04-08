@@ -23,6 +23,7 @@ class PacienteFormPage extends StatefulWidget {
 class _PacienteFormPageState extends State<PacienteFormPage> {
   final _formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
+  final TextEditingController _dataController = TextEditingController();
 
   bool get isEditing => widget.paciente != null;
 
@@ -30,6 +31,15 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
   void initState() {
     super.initState();
     _selectedDate = widget.paciente?.dataAtendimento;
+    if (_selectedDate != null) {
+      _dataController.text = DateFormat('dd/MM/yyyy').format(_selectedDate!);
+    }
+  }
+
+  @override
+  void dispose() {
+    _dataController.dispose();
+    super.dispose();
   }
 
   void _pickDate() async {
@@ -42,6 +52,7 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
     if (date != null) {
       setState(() {
         _selectedDate = date;
+        _dataController.text = DateFormat('dd/MM/yyyy').format(date);
       });
     }
   }
@@ -79,7 +90,8 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
         final cubit = PacienteFormCubit();
         if (isEditing) {
           cubit.nomeController.text = widget.paciente?.nome ?? '';
-          cubit.procedimentoController.text = widget.paciente?.procedimento ?? '';
+          cubit.procedimentoController.text =
+              widget.paciente?.procedimento ?? '';
           cubit.telefoneController.text = widget.paciente?.telefone ?? '';
           cubit.cpfController.text = widget.paciente?.cpf ?? '';
           cubit.emailController.text = widget.paciente?.email ?? '';
@@ -91,7 +103,7 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
       child: BlocBuilder<PacienteFormCubit, PacienteFormState>(
         builder: (context, state) {
           final formCubit = context.read<PacienteFormCubit>();
-          
+
           return Scaffold(
             appBar: AppBar(
               title: Text(isEditing ? 'Editar Paciente' : 'Novo Paciente'),
@@ -107,7 +119,8 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
                       label: 'Nome *',
                       hintText: 'Nome completo do paciente',
                       controller: formCubit.nomeController,
-                      validator: (value) => FormValidators.validateRequired(value, 'Nome'),
+                      validator: (value) =>
+                          FormValidators.validateRequired(value, 'Nome'),
                     ),
                     AppSpacing.verticalMd,
                     AppFormField(
@@ -145,12 +158,21 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
                         ),
                       ),
                       items: const [
-                        DropdownMenuItem(value: 'Endodontia', child: Text('Endodontia')),
-                        DropdownMenuItem(value: 'Ortodontia', child: Text('Ortodontia')),
-                        DropdownMenuItem(value: 'Periodontia', child: Text('Periodontia')),
+                        DropdownMenuItem(
+                          value: 'Endodontia',
+                          child: Text('Endodontia'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Ortodontia',
+                          child: Text('Ortodontia'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Periodontia',
+                          child: Text('Periodontia'),
+                        ),
                       ],
                       onChanged: formCubit.updateTipo,
-                      validator: (val) => 
+                      validator: (val) =>
                           (val == null) ? 'Selecione um tipo' : null,
                     ),
                     AppSpacing.verticalMd,
@@ -158,17 +180,22 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
                       label: 'Procedimento *',
                       hintText: 'Descreva o procedimento',
                       controller: formCubit.procedimentoController,
-                      validator: (value) => FormValidators.validateRequired(value, 'Procedimento'),
+                      validator: (value) => FormValidators.validateRequired(
+                        value,
+                        'Procedimento',
+                      ),
                     ),
                     AppSpacing.verticalMd,
                     AppFormField(
-                      label: _selectedDate == null
-                          ? 'Data de Atendimento (Opcional)'
-                          : 'Data: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
+                      label: 'Data de Atendimento *',
                       hintText: 'Clique para selecionar a data',
-                      onChanged: (_) {}, // dummy to avoid error if readOnly
-                      controller: TextEditingController(), // dummy
-                      validator: null,
+                      controller: _dataController,
+                      readOnly: true,
+                      onTap: _pickDate,
+                      validator: (value) => FormValidators.validateRequired(
+                        value,
+                        'Data de Atendimento',
+                      ),
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.calendar_today),
                         onPressed: _pickDate,

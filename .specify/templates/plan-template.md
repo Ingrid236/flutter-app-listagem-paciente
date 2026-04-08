@@ -31,11 +31,17 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- [ ] Camadas separadas corretamente (Presentation, Domain, Data, Core).
-- [ ] UI isolada e limpa (Nenhuma regra de negócio na UI, nenhum acesso direto ao repositório).
-- [ ] Operações executadas via UseCases (e.g., GetPacientes, AddPaciente).
-- [ ] Persistência inicial em memória (Sem BD real na Fase 1, mas preparado para mock).
-- [ ] Reutilização implementada (Campos, Botões, Dialogs componentes extraídos).
+- [ ] **Git**: Branch dedicada criada antes de qualquer modificação de código (§15).
+- [ ] Camadas separadas corretamente (Presentation, Domain, Data, Core) (§2).
+- [ ] UI isolada e limpa — sem regra de negócio, sem acesso direto a repositório (§3).
+- [ ] Operações executadas via UseCases (e.g., GetPacientes, AddPaciente) (§6).
+- [ ] Persistência inicial em memória — sem BD real na Fase 1 (§4).
+- [ ] Reutilização implementada — AppFormField, AppButton, AppCard, AppSpacing (§9).
+- [ ] Cores usando `AppColors.*` — sem `Colors.*` hardcoded (§8, §16).
+- [ ] Espaçamentos usando `AppSpacing.*` — sem valores numéricos avulsos (§8, §16).
+- [ ] Sem dead code — componentes legados removidos na mesma PR (§18).
+- [ ] `PacienteModel` sincronizado com todos os campos de `Paciente` (§5, §18).
+- [ ] `flutter analyze` e `flutter test` passando sem erros (§15.5).
 
 ## Project Structure
 

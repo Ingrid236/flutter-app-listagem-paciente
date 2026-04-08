@@ -242,10 +242,24 @@ With multiple developers:
 
 ## Notes
 
-- [P] tasks = different files, no dependencies
-- [Story] label maps task to specific user story for traceability
-- Each user story should be independently completable and testable
-- Verify tests fail before implementing
-- Commit after each task or logical group
-- Stop at any checkpoint to validate story independently
-- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+- **[P] tasks** = diferentes arquivos, sem dependências → podem rodar em paralelo
+- **[Story] label** mapeia a tarefa para a user story correspondente (rastreabilidade)
+- Cada user story DEVE ser completável e testável de forma independente
+- Testes DEVEM falhar antes da implementação (TDD)
+- **Criar branch dedicada antes de qualquer tarefa de código** (constituição §15):
+  `git checkout -b feature/###-nome-da-feature`
+- Commitar após cada tarefa ou grupo lógico com mensagem Conventional Commits
+- Parar em cada checkpoint para validar a story independentemente
+- Antes de abrir PR: `flutter analyze && flutter test` (constituição §15.5)
+- Ao substituir um componente legado: deletar o arquivo antigo na mesma PR (§18)
+- Evitar: tarefas vagas, conflitos no mesmo arquivo, dependências cross-story
+  que quebrem a independência
+
+### Checklist de PR antes do merge (constituição §15.5)
+
+- [ ] Branch dedicada foi criada (não é commit direto em `main`)
+- [ ] `flutter analyze` sem erros
+- [ ] `flutter test` todos verdes
+- [ ] Dead code removido (imports, métodos, widgets legados)
+- [ ] Cores usando `AppColors.*`, espaçamentos usando `AppSpacing.*`
+- [ ] `PacienteModel` sincronizado com `Paciente` entity
