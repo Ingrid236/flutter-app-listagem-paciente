@@ -18,6 +18,10 @@ class PacienteRepositoryMemoryImpl implements PacienteRepository {
       id: paciente.id,
       nome: paciente.nome,
       procedimento: paciente.procedimento,
+      telefone: paciente.telefone,
+      cpf: paciente.cpf,
+      email: paciente.email,
+      tipo: paciente.tipo,
       dataAtendimento: paciente.dataAtendimento,
       observacoes: paciente.observacoes,
     );
@@ -33,6 +37,10 @@ class PacienteRepositoryMemoryImpl implements PacienteRepository {
         id: paciente.id,
         nome: paciente.nome,
         procedimento: paciente.procedimento,
+        telefone: paciente.telefone,
+        cpf: paciente.cpf,
+        email: paciente.email,
+        tipo: paciente.tipo,
         dataAtendimento: paciente.dataAtendimento,
         observacoes: paciente.observacoes,
       );

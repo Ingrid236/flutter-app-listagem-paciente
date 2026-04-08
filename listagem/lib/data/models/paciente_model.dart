@@ -5,6 +5,10 @@ class PacienteModel extends Paciente {
     required super.id,
     required super.nome,
     required super.procedimento,
+    super.telefone,
+    super.cpf,
+    super.email,
+    super.tipo,
     super.dataAtendimento,
     super.observacoes,
   });
@@ -14,6 +18,10 @@ class PacienteModel extends Paciente {
       id: json['id'],
       nome: json['nome'],
       procedimento: json['procedimento'],
+      telefone: json['telefone'],
+      cpf: json['cpf'],
+      email: json['email'],
+      tipo: json['tipo'],
       dataAtendimento: json['dataAtendimento'] != null
           ? DateTime.parse(json['dataAtendimento'])
           : null,
@@ -26,6 +34,10 @@ class PacienteModel extends Paciente {
       'id': id,
       'nome': nome,
       'procedimento': procedimento,
+      'telefone': telefone,
+      'cpf': cpf,
+      'email': email,
+      'tipo': tipo,
       'dataAtendimento': dataAtendimento?.toIso8601String(),
       'observacoes': observacoes,
     };

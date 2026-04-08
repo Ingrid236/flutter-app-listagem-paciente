@@ -57,6 +57,33 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
     }
   }
 
+  void _confirmDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Excluir Paciente'),
+        content: const Text(
+          'Tem certeza que deseja excluir este paciente? Esta ação não pode ser desfeita.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              context.read<PacienteCubit>().deletePaciente(widget.paciente!.id);
+              Navigator.of(ctx).pop(); // close dialog
+              Navigator.of(context).pop(); // close form page
+            },
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Excluir'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _save(PacienteFormCubit formCubit) {
     if (_formKey.currentState!.validate()) {
       final paciente = Paciente(
@@ -149,31 +176,62 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
                       validator: FormValidators.validateEmail,
                     ),
                     AppSpacing.verticalMd,
-                    DropdownButtonFormField<String>(
-                      value: state.selectedTipo,
-                      decoration: InputDecoration(
-                        labelText: 'Tipo de Paciente *',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Especialidade *',
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'Endodontia',
-                          child: Text('Endodontia'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'Ortodontia',
-                          child: Text('Ortodontia'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'Periodontia',
-                          child: Text('Periodontia'),
+                        const SizedBox(height: 8.0),
+                        DropdownButtonFormField<String>(
+                          value: state.selectedTipo,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'Dentística',
+                              child: Text('Dentística'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Ortodontia',
+                              child: Text('Ortodontia'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Implantodontia',
+                              child: Text('Implantodontia'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Endodontia',
+                              child: Text('Endodontia'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Periodontia',
+                              child: Text('Periodontia'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Cirurgia Bucomaxilofacial',
+                              child: Text('Cirurgia Bucomaxilofacial'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Harmonização Orofacial',
+                              child: Text('Harmonização Orofacial'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Prótese',
+                              child: Text('Prótese'),
+                            ),
+                          ],
+                          onChanged: formCubit.updateTipo,
+                          validator: (val) => (val == null)
+                              ? 'Selecione uma especialidade'
+                              : null,
                         ),
                       ],
-                      onChanged: formCubit.updateTipo,
-                      validator: (val) =>
-                          (val == null) ? 'Selecione um tipo' : null,
                     ),
                     AppSpacing.verticalMd,
                     AppFormField(
@@ -215,6 +273,24 @@ class _PacienteFormPageState extends State<PacienteFormPage> {
                       icon: isEditing ? Icons.edit : Icons.add,
                       fullWidth: true,
                     ),
+                    if (isEditing) ...[
+                      AppSpacing.verticalMd,
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () => _confirmDelete(context),
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          label: const Text(
+                            'Excluir',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.red),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
